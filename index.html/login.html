@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | PTMS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-page">
+
+<div class="login-container">
+
+    <div class="login-logo">
+        <img src="must-logo.png" alt="MUST Logo">
+        <h2>PTMS</h2>
+        <p>Project Title Management System</p>
+    </div>
+
+    <form id="loginForm" class="login-form">
+
+        <div class="form-group">
+            <label for="loginUsername">Username</label>
+            <input
+                type="text"
+                id="loginUsername"
+                placeholder="Enter username"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter password"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn primary-btn full-btn">
+            Login
+        </button>
+
+        <a href="index.html" class="back-home">
+            ← Back to Home
+        </a>
+
+    </form>
+
+    <div class="dashboard-card" style="margin-top:20px; font-size:13px;">
+
+        <strong>Demo Login Accounts</strong>
+
+        <hr>
+
+        <p>
+            <strong>Administrator</strong><br>
+            Username: admin<br>
+            Password: Admin@123
+        </p>
+
+        <p>
+            <strong>Supervisor</strong><br>
+            Username: johndoe<br>
+            Password: Admin@123
+        </p>
+
+        <p>
+            <strong>Coordinator</strong><br>
+            Username: coordinator<br>
+            Password: Admin@123
+        </p>
+
+        <p>
+            <strong>Department Head</strong><br>
+            Username: head<br>
+            Password: Admin@123
+        </p>
+
+        <p>
+            <strong>Student</strong><br>
+            Username: student<br>
+            Password: Student@123
+        </p>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

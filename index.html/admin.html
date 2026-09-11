@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Administrator | PTMS</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo-area">
+
+        <img src="must-logo.png"
+             alt="MUST Logo">
+
+        <div>
+
+            <h2>PTMS</h2>
+
+            <span>
+                MUST Project Title Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="navbar">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="registration.html">
+            Registration
+        </a>
+
+        <a href="titles.html">
+            Project Titles
+        </a>
+
+        <a href="project.html">
+            Projects
+        </a>
+
+        <a href="admin.html"
+           class="active">
+            Admin
+        </a>
+
+        <a href="#"
+           onclick="logout()">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page-container">
+
+
+    <div class="page-title">
+
+        <h1>
+            Administrator Dashboard
+        </h1>
+
+        <p>
+            Review and approve student project titles.
+        </p>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <h2>
+            Project Approval
+        </h2>
+
+        <p>
+            Welcome, <strong data-user-name>Administrator</strong>
+        </p>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="table-container">
+
+        <table id="adminProjectsTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Student</th>
+
+                    <th>Reg. Number</th>
+
+                    <th>Project Title</th>
+
+                    <th>Supervisor</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="adminProjectsBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="export-buttons"
+         data-export-table="adminProjectsTable"
+         data-export-title="Project Approval Report">
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 Project Title Management System - MUST
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

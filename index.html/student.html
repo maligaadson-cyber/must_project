@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Student Dashboard | PTMS</title>
+
+
+<!-- Excel Export -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<!-- PDF Export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+
+
+<style>
+
+/* =========================
+   GENERAL
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f6f8;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 35px;
+    gap: 20px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-area img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.logo-area h2 {
+    font-size: 22px;
+    color: #222;
+    margin-bottom: 2px;
+}
+
+.logo-area span {
+    font-size: 12px;
+    color: #777;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #444;
+    padding: 9px 13px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.navbar a:hover {
+    background: #f0f0f0;
+}
+
+.navbar a.active {
+    background: #333;
+    color: #fff;
+}
+
+.navbar .login-btn {
+    background: #555;
+    color: #fff;
+}
+
+.navbar .login-btn:hover {
+    background: #333;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.page-container {
+    width: 94%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+
+/* =========================
+   DASHBOARD TOP
+========================= */
+
+.dashboard-top {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.dashboard-top h1 {
+    font-size: 27px;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.dashboard-top p {
+    font-size: 14px;
+    color: #666;
+}
+
+.dashboard-top strong {
+    color: #222;
+}
+
+
+/* =========================
+   ACTION LIST
+========================= */
+
+.action-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.action-box {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    min-height: 100px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.action-box strong {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.action-box br + * {
+    color: #333;
+}
+
+
+/* =========================
+   REGISTER BUTTON
+========================= */
+
+.register-area {
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: #333;
+    color: #fff;
+}
+
+.primary-btn:hover {
+    background: #222;
+}
+
+
+/* =========================
+   DASHBOARD CARD
+========================= */
+
+.dashboard-card {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+
+/* =========================
+   EXPORT BUTTONS
+========================= */
+
+.export-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.export-buttons button {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+    padding: 8px 13px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.export-buttons button:hover {
+    background: #f2f2f2;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+table th {
+    background: #f1f1f1;
+    color: #333;
+    font-size: 13px;
+    text-align: left;
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+}
+
+table td {
+    padding: 11px 10px;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    color: #555;
+    background: #fff;
+}
+
+table tr:hover td {
+    background: #fafafa;
+}
+
+
+/* =========================
+   TABLE BUTTONS
+========================= */
+
+table button {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 2px;
+}
+
+table button:hover {
+    background: #eee;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    border: 1px solid #ddd;
+}
+
+.status.pending {
+    background: #fff;
+    color: #777;
+}
+
+.status.approved {
+    background: #f1f1f1;
+    color: #333;
+}
+
+.status.rejected {
+    background: #e9e9e9;
+    color: #555;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #ffffff;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    padding: 18px;
+    margin-top: 40px;
+}
+
+footer p {
+    font-size: 12px;
+    color: #777;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+    }
+
+    .navbar {
+        width: 100%;
+    }
+
+    .action-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .page-container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .logo-area span {
+        display: none;
+    }
+
+    .navbar {
+        gap: 4px;
+    }
+
+    .navbar a {
+        font-size: 12px;
+        padding: 7px 9px;
+    }
+
+    .dashboard-top {
+        padding: 18px;
+    }
+
+    .dashboard-top h1 {
+        font-size: 22px;
+    }
+
+    .action-list {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card {
+        padding: 12px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <div class="logo-area">
+
+        <img src="must-logo.png"
+             alt="MUST Logo">
+
+        <div>
+
+            <h2>PTMS</h2>
+
+            <span>
+                MUST Project Title Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="titles.html">
+            Project Titles
+        </a>
+
+        <a href="project.html">
+            Projects
+        </a>
+
+        <a href="registration.html">
+            Create Project
+        </a>
+
+        <a href="student.html"
+           class="active">
+            Student
+        </a>
+
+        <a href="javascript:void(0)"
+           onclick="logout()"
+           class="login-btn">
+            Logout
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="page-container">
+
+
+    <!-- DASHBOARD HEADER -->
+
+    <div class="dashboard-top">
+
+        <div>
+
+            <h1>
+                Student Dashboard
+            </h1>
+
+            <p>
+
+                Welcome,
+
+                <strong data-user-name>
+                </strong>
+
+                -
+
+                <span data-user-role>
+                </span>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- STUDENT ACTIONS -->
+
+    <div class="action-list">
+
+
+        <div class="action-box">
+
+            <strong>
+                CREATE
+            </strong>
+
+            <br>
+
+            Register Project
+
+        </div>
+
+
+
+        <div class="action-box">
+
+            <strong>
+                READ
+            </strong>
+
+            <br>
+
+            View My Projects
+
+        </div>
+
+
+
+        <div class="action-box">
+
+            <strong>
+                UPDATE
+            </strong>
+
+            <br>
+
+            Edit My Project
+
+        </div>
+
+
+
+        <div class="action-box">
+
+            <strong>
+                DELETE
+            </strong>
+
+            <br>
+
+            Delete My Project
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- REGISTER NEW PROJECT -->
+
+    <div class="register-area">
+
+        <a href="registration.html"
+           class="btn primary-btn">
+
+            + Register New Project
+
+        </a>
+
+    </div>
+
+
+
+    <!-- PROJECTS -->
+
+    <div class="dashboard-card">
+
+
+        <!-- EXPORT -->
+
+        <div
+            class="export-buttons"
+            data-export-table="studentProjectsTable"
+            data-export-title="Student Project Report">
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div class="table-container">
+
+            <table id="studentProjectsTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+                        <th>
+                            Project Title
+                        </th>
+
+                        <th>
+                            Supervisor
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="studentProjectsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 Project Title Management System - MUST
+    </p>
+
+</footer>
+
+
+
+<!-- JAVASCRIPT -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

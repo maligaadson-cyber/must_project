@@ -1,0 +1,802 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Department Head | PTMS</title>
+
+
+<!-- =========================
+     EXPORT LIBRARIES
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js"></script>
+
+
+<!-- =========================
+     INTERNAL CSS
+========================= -->
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f6f8;
+    color: #333;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+    padding: 12px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-area img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.logo-area h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.logo-area span {
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #333;
+
+    padding: 9px 13px;
+
+    border-radius: 4px;
+
+    font-size: 14px;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    background: #eeeeee;
+}
+
+.navbar .login-btn {
+    background: #333;
+    color: white;
+}
+
+.navbar .login-btn:hover {
+    background: #555;
+}
+
+
+/* =========================
+   PAGE CONTAINER
+========================= */
+
+.page-container {
+    width: 95%;
+    max-width: 1350px;
+
+    margin: 30px auto;
+}
+
+
+/* =========================
+   DASHBOARD TOP
+========================= */
+
+.dashboard-top {
+    background: #ffffff;
+
+    border: 1px solid #ddd;
+    border-radius: 6px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+}
+
+.dashboard-top h1 {
+    margin: 0 0 8px;
+
+    font-size: 26px;
+}
+
+.dashboard-top p {
+    margin: 0;
+
+    color: #666;
+}
+
+
+/* =========================
+   ACTION LIST
+========================= */
+
+.action-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.action-box {
+    background: #ffffff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    padding: 18px;
+
+    text-align: center;
+}
+
+.action-box strong {
+    display: inline-block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   DASHBOARD CARD
+========================= */
+
+.dashboard-card {
+    background: #ffffff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    padding: 20px;
+}
+
+
+/* =========================
+   CARD HEADER
+========================= */
+
+.card-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.card-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+
+/* =========================
+   EXPORT BUTTONS
+========================= */
+
+.export-buttons {
+    margin-bottom: 15px;
+}
+
+.export-buttons button {
+    padding: 8px 13px;
+
+    margin-right: 6px;
+
+    border: 1px solid #ccc;
+
+    background: #f8f8f8;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+.export-buttons button:hover {
+    background: #e8e8e8;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1100px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+
+    padding: 10px;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    vertical-align: middle;
+}
+
+table th {
+    background: #f1f1f1;
+
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background: #fafafa;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    display: inline-block;
+
+    padding: 5px 9px;
+
+    border-radius: 4px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+.status-pending {
+    background: #fff3cd;
+
+    color: #856404;
+}
+
+.status-approved {
+    background: #d4edda;
+
+    color: #155724;
+}
+
+.status-rejected {
+    background: #f8d7da;
+
+    color: #721c24;
+}
+
+
+/* =========================
+   MARKS
+========================= */
+
+.marks {
+    font-weight: bold;
+
+    text-align: center;
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback {
+    max-width: 220px;
+
+    line-height: 1.4;
+
+    color: #555;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.action-btn {
+    border: none;
+
+    padding: 7px 10px;
+
+    margin: 2px;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+.approve-btn {
+    background: #e8e8e8;
+
+    color: #222;
+}
+
+.approve-btn:hover {
+    background: #d8d8d8;
+}
+
+.reject-btn {
+    background: #f1f1f1;
+
+    color: #b00020;
+}
+
+.reject-btn:hover {
+    background: #e5e5e5;
+}
+
+.review-btn {
+    background: #333;
+
+    color: white;
+}
+
+.review-btn:hover {
+    background: #555;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #ffffff;
+
+    border-top: 1px solid #ddd;
+
+    text-align: center;
+
+    padding: 18px;
+
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #777;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 950px) {
+
+    .action-list {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .header {
+        gap: 15px;
+    }
+
+    .navbar {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .action-list {
+        grid-template-columns: 1fr;
+    }
+
+    .page-container {
+        width: 96%;
+    }
+
+    .header {
+        padding: 12px 15px;
+    }
+
+    .navbar a {
+        padding: 8px 9px;
+
+        font-size: 13px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+
+    <div class="logo-area">
+
+
+        <img src="must-logo.png"
+             alt="MUST Logo">
+
+
+        <div>
+
+            <h2>PTMS</h2>
+
+            <span>
+                MUST Project Title Management System
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+
+        <a href="index.html">
+            Home
+        </a>
+
+
+        <a href="titles.html">
+            Project Titles
+        </a>
+
+
+        <a href="project.html">
+            Projects
+        </a>
+
+
+        <a href="department-head.html"
+           class="active">
+            Department Head
+        </a>
+
+
+        <a href="javascript:void(0)"
+           onclick="logout()"
+           class="login-btn">
+
+            Logout
+
+        </a>
+
+
+    </nav>
+
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="page-container">
+
+
+    <!-- DASHBOARD INTRO -->
+
+    <div class="dashboard-top">
+
+
+        <h1>
+            Department Head Dashboard
+        </h1>
+
+
+        <p>
+
+            Welcome,
+
+            <strong data-user-name>
+            </strong>
+
+            -
+
+            <span data-user-role>
+            </span>
+
+        </p>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         ACTION SUMMARY
+    ========================= -->
+
+    <div class="action-list">
+
+
+        <div class="action-box">
+
+            <strong>
+                READ
+            </strong>
+
+            <br>
+
+            View Projects
+
+        </div>
+
+
+
+        <div class="action-box">
+
+            <strong>
+                UPDATE
+            </strong>
+
+            <br>
+
+            Approve Project
+
+        </div>
+
+
+
+        <div class="action-box">
+
+            <strong>
+                UPDATE
+            </strong>
+
+            <br>
+
+            Reject Project
+
+        </div>
+
+
+
+        <div class="action-box">
+
+            <strong>
+                READ
+            </strong>
+
+            <br>
+
+            Review Status
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         PROJECT TABLE
+    ========================= -->
+
+    <div class="dashboard-card">
+
+
+        <div class="card-header">
+
+            <h2>
+                Project Review
+            </h2>
+
+        </div>
+
+
+
+        <!-- EXPORT -->
+
+        <div
+            class="export-buttons"
+            data-export-table="headProjectsTable"
+            data-export-title="Department Head Project Report">
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div class="table-container">
+
+
+            <table id="headProjectsTable">
+
+
+                <thead>
+
+
+                    <tr>
+
+                        <th>
+                            ID
+                        </th>
+
+
+                        <th>
+                            Student Name
+                        </th>
+
+
+                        <th>
+                            Registration No.
+                        </th>
+
+
+                        <th>
+                            Project Name
+                        </th>
+
+
+                        <th>
+                            Supervisor
+                        </th>
+
+
+                        <th>
+                            Status
+                        </th>
+
+
+                        <th>
+                            Marks
+                        </th>
+
+
+                        <th>
+                            Feedback
+                        </th>
+
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+
+                </thead>
+
+
+
+                <tbody id="headProjectsBody">
+
+                    <!--
+                    Projects will be loaded
+                    automatically by script.js
+                    -->
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 Project Title Management System - MUST
+    </p>
+
+</footer>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+

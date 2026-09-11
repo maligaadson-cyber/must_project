@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Project Titles | PTMS</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo-area">
+
+        <img src="must-logo.png"
+             alt="MUST Logo">
+
+        <div>
+
+            <h2>PTMS</h2>
+
+            <span>
+                MUST Project Title Management System
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="navbar">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="registration.html">
+            Registration
+        </a>
+
+        <a href="titles.html"
+           class="active">
+            Project Titles
+        </a>
+
+        <a href="supervisor.html">
+            Supervisors
+        </a>
+
+        <a href="project.html">
+            Projects
+        </a>
+
+        <a href="about.html">
+            About
+        </a>
+
+        <a href="contact.html">
+            Contact
+        </a>
+
+        <a href="login.html"
+           class="login-btn">
+            Login
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page-container">
+
+
+    <div class="page-title">
+
+        <h1>
+            Approved Project Titles
+        </h1>
+
+        <p>
+            Official project titles approved by the administrator.
+        </p>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table id="approvedTitlesTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>Student Name</th>
+
+                    <th>Registration Number</th>
+
+                    <th>Project Title</th>
+
+                    <th>Supervisor</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="approvedTitlesBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="export-buttons"
+         data-export-table="approvedTitlesTable"
+         data-export-title="Approved Project Titles">
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 Project Title Management System - MUST
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
